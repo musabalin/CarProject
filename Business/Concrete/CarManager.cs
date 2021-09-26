@@ -18,6 +18,20 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
+        public void Add(Car car)
+        {
+            if (car.DailyPrice>20)
+            {
+                _carDal.Add(car);
+
+            }
+            else
+            {
+                Console.WriteLine("Arabanın günlük ücreti 0'dan büyük olmalıdır.");
+            }
+
+        }
+
         public List<Car> GetAll()
         {
             return _carDal.GetAll();
