@@ -11,16 +11,31 @@ namespace Business.Concrete
 {
     public class BrandManager : IBrandService
     {
-        IBrandDal brandDal;
+        IBrandDal _brandDal;
 
         public BrandManager(IBrandDal brandDal)
         {
-            this.brandDal = brandDal;
+            _brandDal = brandDal;
         }
-
+        public void Add(Brand brand)
+        {
+            _brandDal.Add(brand);
+        }
+        public void Delete(Brand brand)
+        {
+            _brandDal.Delete(brand);
+        }
         public List<Brand> GetAll()
         {
-            throw new NotImplementedException();
+            return _brandDal.GetAll();
+        }
+        public List<Brand> GetByBrandId(int Id)
+        {
+           return _brandDal.GetAll(x=>x.BrandId==Id);
+        }
+        public void Update(Brand brand)
+        {
+            _brandDal.Update(brand);
         }
     }
 }

@@ -1,6 +1,7 @@
-﻿using DataAccess.Abstract;
-using Entities.Abstract;
+﻿using Core.DataAccess;
+using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,41 +12,28 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EFCarDal : ICarDal
+    public class EfCarDal : EfEntityRepositoryBase<Car, RentACarContext>, ICarDal
     {
-        public void Add(Car entity)
+        public List<CarDetailsDTO> GetCarDetails()
         {
             using (RentACarContext context = new RentACarContext())
             {
-                var addCar = context.Entry(entity);
-                addCar.State = EntityState.Added;
-                context.SaveChanges();
+                var result = from c in context.Cars
+                             join b in context.Brands
+                             on c.BrandId equals b.BrandId
+                             join cl in context.Colors
+                             on c.ColorId equals cl.ColorId
+                             select new CarDetailsDTO
+                             {
+                                 CarName = c.CarName,
+                                 BrandName = b.BrandName,
+                                 ColorName = cl.ColorName,
+                                 DailyPrice = c.DailyPrice
+                             };
+                return result.ToList();
             }
         }
 
-        public void Delete(Car entity)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Car Get(Expression<Func<Car, bool>> filter)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
-        {
-            using (RentACarContext context = new RentACarContext())
-            {
-                return filter == null
-                    ? context.Set<Car>().ToList()
-                    : context.Set<Car>().Where(filter).ToList();
-            }
-        }
-
-        public void Update(Car entity)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
