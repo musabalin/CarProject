@@ -1,4 +1,5 @@
 ﻿using Business.Concrete;
+using Business.Constants;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
@@ -14,23 +15,42 @@ namespace ConsoleUI2
         {
             //CarTest();
             //ColorAddTest();
-            //ColorDeleteTest();
+            //ColorDeleteTest();           
+            GetCarDetailsTest();
             //BrandUpdateTest();
 
+
+        }
+
+        private static void GetCarDetailsTest()
+        {
             CarManager carManager = new CarManager(new EfCarDal());
-            foreach (var car in carManager.GetCarDetails())
+            var result = carManager.GetCarDetails();
+            if (result.Success == true)
             {
-                Console.WriteLine(car.CarName + " " + car.BrandName + " " + car.ColorName + " " + car.DailyPrice);
+                foreach (var car in result.Data)
+                {
+                    Console.WriteLine(car.CarName + " " + car.BrandName + " " + car.ColorName + " " + car.DailyPrice);
+                }
+                Console.WriteLine(Messages.SuccesMessage);
             }
 
+            ////ID'ye göre Arama
+            //var result2 = carManager.GetById(1);
+            //Console.WriteLine(result2.Data.CarName);
         }
 
         private static void BrandUpdateTest()
         {
             Brand brand1 = new Brand() { BrandId = 1, BrandName = "Honda" };
             BrandManager brandManager = new BrandManager(new EfBrandDal());
-            brand1.BrandName = "BMW";
-            brandManager.Update(brand1);
+            brand1.BrandName = "VolksWagen";
+            var result = brandManager.Update(brand1);
+            brandManager.GetAll();
+            if (result.Success == false)
+            {
+                Console.WriteLine(result.Message);
+            }
         }
 
         private static void ColorDeleteTest()
@@ -39,7 +59,7 @@ namespace ConsoleUI2
             Color color1 = new Color();
             Console.Write("ColorId:");
             color1.ColorId = Convert.ToInt32(Console.ReadLine());
-            var result = color.GetAll().Where(x => x.ColorId == color1.ColorId);
+            var result = color.GetAll().Data.Where(x => x.ColorId == color1.ColorId);
             color.Delete(color1);
         }
 
@@ -75,9 +95,13 @@ namespace ConsoleUI2
             car1.Description = Console.ReadLine();
 
             carManager.Add(car1);
-
-
-            foreach (var car in carManager.GetAll())
+            var result = carManager.Add(car1);
+            if (result.Success == true)
+            {
+                Console.WriteLine(result.Message);
+            }
+            var result2 = carManager.GetAll();
+            foreach (var car in result2.Data)
             {
                 Console.WriteLine(car.CarName);
             }

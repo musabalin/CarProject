@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -17,38 +19,43 @@ namespace Business.Concrete
         {
             _carDal = carDal;
         }
-        public void Add(Car car)
+        public IResult Add(Car car)
         {
-            if (car.DailyPrice > 0 && car.CarName.Length > 2)
+            if (car.CarName.Length > 2)
             {
                 _carDal.Add(car);
+                return new SuccessResult(Messages.SuccesMessage);
             }
             else
             {
-                Console.WriteLine("Arabanın günlük ücreti 0'dan büyük olmalıdır.");
+                return new ErrorResult(Messages.ErrorMessage);
             }
 
+
+
         }
-        public List<Car> GetAll()
+        public IDataResult<List<Car>> GetAll()
         {
-            return _carDal.GetAll();
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.SuccesMessage);
         }
-        public void Delete(Car car)
+        public IResult Delete(Car car)
         {
             _carDal.Delete(car);
+            return new SuccessResult(Messages.SuccesMessage);
         }
-        public void Update(Car car)
+        public IResult Update(Car car)
         {
             _carDal.Update(car);
+            return new SuccessResult(Messages.SuccesMessage);
         }
-        public List<Car> GetById(int id)
+        public IDataResult<Car> GetById(int id)
         {
-            return _carDal.GetAll(x => x.Id == id);
+            return new SuccessDataResult<Car>(_carDal.Get(x => x.Id == id));
         }
 
-        public List<CarDetailsDTO> GetCarDetails()
+        public IDataResult<List<CarDetailsDTO>> GetCarDetails()
         {
-            return _carDal.GetCarDetails();
+            return new SuccessDataResult<List<CarDetailsDTO>>(_carDal.GetCarDetails());
         }
     }
 }
