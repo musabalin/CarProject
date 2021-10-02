@@ -12,9 +12,9 @@ namespace Business.Concrete
 {
     public class CustomerManager : ICustomerService
     {
-        ICustumerDal _customerDal;
+        ICustomerDal _customerDal;
 
-        public CustomerManager(ICustumerDal customerDal)
+        public CustomerManager(ICustomerDal customerDal)
         {
             _customerDal = customerDal;
         }

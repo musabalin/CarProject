@@ -32,18 +32,18 @@ namespace WepAPI
         {
 
             services.AddControllers();
-            services.AddScoped<ICarService, CarManager>();
-            services.AddScoped<ICarDal, EfCarDal>();
-            services.AddScoped<IBrandService, BrandManager>();
-            services.AddScoped<IBrandDal, EfBrandDal>();
-            services.AddScoped<IUserService,UserManager>();
-            services.AddScoped<IUserDal,EfUserDal>();
-            services.AddScoped<ICustomerService, CustomerManager>();
-            services.AddScoped<ICustumerDal, EfCustomerDal>();
-            services.AddScoped<IRentalService, RentalManager>();
-            services.AddScoped<IRentalDal, EfRentalDal>();
-            services.AddScoped<IColorService, ColorManager>();
-            services.AddScoped<IColorDal, EfColorDal>();
+            //services.AddScoped<ICarService, CarManager>();
+            //services.AddScoped<ICarDal, EfCarDal>();
+            //services.AddScoped<IBrandService, BrandManager>();
+            //services.AddScoped<IBrandDal, EfBrandDal>();
+            //services.AddScoped<IUserService,UserManager>();
+            //services.AddScoped<IUserDal,EfUserDal>();
+            //services.AddScoped<ICustomerService, CustomerManager>();
+            //services.AddScoped<ICustomerDal, EfCustomerDal>();
+            //services.AddScoped<IRentalService, RentalManager>();
+            //services.AddScoped<IRentalDal, EfRentalDal>();
+            //services.AddScoped<IColorService, ColorManager>();
+            //services.AddScoped<IColorDal, EfColorDal>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WepAPI", Version = "v1" });
